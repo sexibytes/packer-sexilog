@@ -1,0 +1,90 @@
+{
+
+  "builders": [
+    {
+      "type": "vsphere-iso",
+
+      "boot_command": [
+        "<esc><wait>",
+        "<esc><wait>",
+        "<enter><wait>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=us<wait>",
+        " keyboard-configuration/layout=USA<wait>",
+        " keyboard-configuration/variant=USA<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=vagrant<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=https://raw.githubusercontent.com/sexibytes/packer-sexilog/master/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ],
+
+      "vcenter_server": "{{user `esx_server`}}",
+      "username": "root",
+      "password": "{{user `esx_root_pwd`}}",
+      "insecure_connection": true,
+      "vm_name": "sexilog",
+      "host": "{{user `esx_server`}}",
+      "datastore": "{{user `datastore`}}",
+      "network_adapters": [
+        {
+          "network": "{{user `portgroup`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "vm_version": "11",
+      "CPUs": 2,
+      "RAM": 8192,
+      "storage": [
+        {
+          "disk_size": 16384,
+          "disk_thin_provisioned": true
+        },
+        {
+          "disk_size": 32384,
+          "disk_thin_provisioned": true
+        }
+      ],
+      "disk_controller_type": "pvscsi",
+      "guest_os_type": "{{user `guestid`}}",
+      "iso_paths": "{{user `iso_path`}}",
+      "ssh_username": "packer",
+      "ssh_password": "packer"
+    }
+  ],
+
+  "provisioners": [
+    {
+        "type": "shell",
+        "execute_command": "echo 'packer' | sudo -S sh '{{.Path}}'",
+        "override": {
+            "vsphere-iso": {
+                "scripts": [
+                    "scripts/base.sh",
+                    "scripts/cleanup.sh"
+                ]
+            }
+        }
+    },
+    {
+      "type": "shell",
+      "skip_clean": true,
+      "execute_command": "chmod +x {{ .Path }}; sudo env {{ .Vars }} {{ .Path }} ; rm -f {{ .Path }}",
+      "inline": [
+          "rm -f /etc/sudoers.d/packer > /dev/null 2>&1",
+          "userdel -rf packer > /dev/null 2>&1"
+      ]
+    }
+  ]
+}
