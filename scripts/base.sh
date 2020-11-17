@@ -21,10 +21,9 @@ if fdisk -l|grep -i "/dev/sdb" > /dev/null; then
   echo "mount sdb"
   parted /dev/sdb mklabel gpt
   parted -a opt /dev/sdb mkpart primary ext4 0% 100%
-  mkfs.ext4 -L wfs /dev/sdb1
-  mkdir -p /mnt/wfs
+  mkfs.ext4 -L elastic /dev/sdb1
+  mkdir -p /mnt/elastic
   echo "#" >> /etc/fstab
-  echo "LABEL=wfs /mnt/wfs ext4 noatime,nodiratime,barrier=0,nobh,errors=remount-ro 0 1" >> /etc/fstab
+  echo "LABEL=elastic /mnt/elastic ext4 noatime,nodiratime,barrier=0,nobh,errors=remount-ro 0 1" >> /etc/fstab
   mount -a
-  mkdir -p /mnt/wfs/whisper
 fi
