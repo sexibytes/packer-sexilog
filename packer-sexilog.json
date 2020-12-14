@@ -39,7 +39,7 @@
           "disk_thin_provisioned": true
         },
         {
-          "disk_size": 32384,
+          "disk_size": 32768,
           "disk_thin_provisioned": true
         }
       ],
@@ -59,6 +59,10 @@
             "vsphere-iso": {
                 "scripts": [
                     "scripts/base.sh",
+                    "scripts/elastic.sh",
+                    "scripts/kibana.sh",
+                    "scripts/logstash.sh",
+                    "scripts/sexilog.sh",
                     "scripts/cleanup.sh"
                 ]
             }
