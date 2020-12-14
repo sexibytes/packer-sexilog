@@ -10,6 +10,7 @@ apt-get install -y elasticsearch
 #
 /bin/systemctl daemon-reload
 /bin/systemctl enable elasticsearch.service
+/bin/systemctl start elasticsearch.service
 #
 sed -i -e "s/#cluster\.name\: my-application/cluster\.name\: sexilog/g" /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/path\.data\: \/var\/lib\/elasticsearch/path\.data\: \/mnt\/efs\/elasticsearch/g" /etc/elasticsearch/elasticsearch.yml
