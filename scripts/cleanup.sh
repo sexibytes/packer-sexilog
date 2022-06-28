@@ -44,7 +44,6 @@ echo "Remove temp files before compacting"
 rm -rf /tmp/*
 rm -rf /usr/local/src/*
 
-
 echo "Purge possible proxy info"
 rm -rf /etc/apt/apt.conf
 
