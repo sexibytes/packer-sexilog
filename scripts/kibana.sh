@@ -3,12 +3,14 @@
 #
 apt-get -y install kibana
 #
+sed -i -e 's/#server\.host: "localhost"/server\.host: "0\.0\.0\.0"/g' /etc/kibana/kibana.yml
+# disable telemetry
+echo "telemetry.enabled: false" >> /etc/kibana/kibana.yml
+#
 /bin/systemctl daemon-reload
 /bin/systemctl enable kibana.service
-#
-sed -i -e 's/#server\.host: "localhost"/server\.host: "0\.0\.0\.0"/g' /etc/kibana/kibana.yml
-#
 /bin/systemctl start kibana.service
+sleep 30s
 # Create index pattern
 curl -XPOST "http://localhost:5601/api/saved_objects/index-pattern/logstash-*" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
@@ -17,10 +19,26 @@ curl -XPOST "http://localhost:5601/api/saved_objects/index-pattern/logstash-*" -
     "timeFieldName" : "@timestamp"
   }
 }'
+sleep 5s
 # Make it the default index
 curl -XPOST "http://localhost:5601/api/kibana/settings/defaultIndex" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
   "value" : "logstash-*"
+}'
+# Make discover default home
+curl -XPOST "http://localhost:5601/api/kibana/settings/defaultRoute" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
+{
+  "value" : "/app/discover"
+}'
+#
+curl -XPOST "http://localhost:5601/api/kibana/settings/accessibility:disableAnimations" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
+{
+  "value" : "true"
+}'
+#
+curl -XPOST "http://localhost:5601/api/kibana/settings/securitySolution:enableNewsFeed" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
+{
+  "value" : "false"
 }'
 #
 # POST <kibana-host>/api/kibana/settings/theme:darkMode
