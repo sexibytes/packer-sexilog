@@ -17,9 +17,9 @@
         "<enter><wait>"
       ],
 
-      "vcenter_server": "{{user `esx_server`}}",
-      "username": "root",
-      "password": "{{user `esx_root_pwd`}}",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "username": "{{user `vpx_usr`}}",
+      "password": "{{user `vpx_pwd`}}",
       "insecure_connection": true,
       "vm_name": "sexilog",
       "host": "{{user `esx_server`}}",
@@ -31,23 +31,27 @@
         }
       ],
       "vm_version": "11",
-      "CPUs": 2,
-      "RAM": 8192,
+      "CPUs": 4,
+      "RAM": 32768,
       "storage": [
         {
           "disk_size": 16384,
-          "disk_thin_provisioned": true
+          "disk_thin_provisioned": true,
+          "disk_controller_index": 0
         },
         {
-          "disk_size": 32768,
-          "disk_thin_provisioned": true
+          "disk_size": 524288,
+          "disk_thin_provisioned": true,
+          "disk_controller_index": 1
         }
       ],
-      "disk_controller_type": "pvscsi",
+      "disk_controller_type": ["pvscsi","pvscsi"],
       "guest_os_type": "{{user `guestid`}}",
       "iso_paths": "{{user `iso_path`}}",
       "ssh_username": "packer",
-      "ssh_password": "packer"
+      "ssh_password": "packer",
+
+      "create_snapshot": "true"
     }
   ],
 
