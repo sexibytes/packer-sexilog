@@ -54,10 +54,4 @@ echo 'vm.swappiness = 1' >> /etc/sysctl.conf
 #
 # es.enforce.bootstrap.checks
 #
-# Install & configure Curator
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb [arch=amd64] https://packages.elastic.co/curator/5/debian9 stable main" > /etc/apt/sources.list.d/curator.list
-#
-apt-get update
-apt-get install -y elasticsearch-curator
-mkdir -p /var/log/elasticsearch-curator
+# ILM to configure https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-index-lifecycle-management.html
