@@ -12,10 +12,6 @@ apt-get install -y elasticsearch
 sed -i -e "s/#cluster\.name\: my-application/cluster\.name\: sexilog/g" /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/path\.data\: \/var\/lib\/elasticsearch/path\.data\: \/mnt\/efs\/elasticsearch/g" /etc/elasticsearch/elasticsearch.yml
 #
-# echo "index.number_of_shards: 1" >> /etc/elasticsearch/elasticsearch.yml
-# echo "index.number_of_replicas: 0" >> /etc/elasticsearch/elasticsearch.yml
-# https://www.elastic.co/guide/en/elasticsearch/reference/current/index-templates.html
-#
 sed -i -e "s/cluster.initial_master_nodes/#cluster.initial_master_nodes/g" /etc/elasticsearch/elasticsearch.yml
 #
 echo "indices.memory.index_buffer_size: 50%" >> /etc/elasticsearch/elasticsearch.yml
@@ -23,9 +19,6 @@ echo "indices.memory.index_buffer_size: 50%" >> /etc/elasticsearch/elasticsearch
 echo "discovery.type: single-node" >> /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/#bootstrap.memory_lock/bootstrap.memory_lock/g" /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/http\.host\: 0\.0\.0\.0/http\.host\: 127\.0\.0\.1/g" /etc/elasticsearch/elasticsearch.yml
-#
-# https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html
-#
 #
 chown -R elasticsearch:elasticsearch /mnt/efs/elasticsearch
 #
