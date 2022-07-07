@@ -4,7 +4,7 @@
 apt-get install -y gnupg2
 #
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
 #
 apt-get update
 apt-get install -y elasticsearch
@@ -24,12 +24,7 @@ echo "discovery.type: single-node" >> /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/#bootstrap.memory_lock/bootstrap.memory_lock/g" /etc/elasticsearch/elasticsearch.yml
 sed -i -e "s/http\.host\: 0\.0\.0\.0/http\.host\: 127\.0\.0\.1/g" /etc/elasticsearch/elasticsearch.yml
 #
-# https://discuss.elastic.co/t/cannot-disable-security-in-8-1/299857
-sed -i -e "s/xpack\.security\.enabled\: true/xpack\.security\.enabled\: false/g" /etc/elasticsearch/elasticsearch.yml
-sed -i -e "s/xpack\.security\.enrollment\.enabled\: true/xpack\.security\.enrollment\.enabled\: false/g" /etc/elasticsearch/elasticsearch.yml
-echo "xpack.security.transport.ssl.enabled: false" >> /etc/elasticsearch/elasticsearch.yml
-echo "xpack.security.http.ssl.enabled: false" >> /etc/elasticsearch/elasticsearch.yml
-echo "xpack.security.autoconfiguration.enabled: false" >> /etc/elasticsearch/elasticsearch.yml
+# https://www.elastic.co/guide/en/kibana/7.17/using-kibana-with-security.html
 #
 #
 chown -R elasticsearch:elasticsearch /mnt/efs/elasticsearch
@@ -42,7 +37,7 @@ sleep 30
 #
 curl -X PUT "localhost:9200/_template/default" -H 'Content-Type: application/json' -d'
 { 
- "index_patterns": ["*"],
+ "template" : "*",
  "order": -1,
   "settings" : {
     "number_of_shards" : "1",
