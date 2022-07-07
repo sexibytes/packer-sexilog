@@ -11,3 +11,4 @@ sed -i -e "s/Group=logstash/Group=root/g" /usr/lib/systemd/system/logstash.servi
 # sed -i -e 's/LS_GROUP=\"logstash\"/LS_GROUP=\"root\"/g' /etc/default/logstash
 #
 echo "LS_HEAP_SIZE=2G" >> /etc/default/logstash
+#
