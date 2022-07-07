@@ -60,3 +60,4 @@ echo "deb [arch=amd64] https://packages.elastic.co/curator/5/debian9 stable main
 #
 apt-get update
 apt-get install -y elasticsearch-curator
+mkdir -p /var/log/elasticsearch-curator
