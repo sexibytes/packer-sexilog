@@ -56,6 +56,3 @@ curl -XPOST "http://localhost:5601/api/kibana/settings/defaultColumns" -H "Conte
 # {
 # 	"value": true
 # }
-# accessibility:disableAnimations
-# securitySolution:enableNewsFeed
-# telemetry:enabled
