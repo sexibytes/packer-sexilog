@@ -51,5 +51,5 @@ rm -rf /etc/apt/apt.conf
 # rm -f /etc/cron.d/popularity-contest
 
 echo "zeroing free space"
+cat /dev/null > ~/.bash_history && history -c
 cat /dev/zero >zero.fill &>/dev/null; sleep 1; sync; sleep 1; /bin/rm -f zero.fill
-# cat /dev/null > ~/.bash_history && history -c && exit
