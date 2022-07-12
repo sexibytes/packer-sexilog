@@ -11,7 +11,7 @@ cp -R /tmp/sexilog-dev/opt/elasticsearch-curator/action.yml /opt/elasticsearch-c
 #
 cp -R /tmp/sexilog-dev/etc/logrotate.d/* /etc/logrotate.d/
 #
-# $(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 90 / 1048576))
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-users.html
 #
 echo "xpack.security.enabled: true" >> /etc/elasticsearch/elasticsearch.yml
 echo "xpack.security.transport.ssl.enabled: true" >> /etc/elasticsearch/elasticsearch.yml
@@ -24,3 +24,10 @@ echo "Sex!L0g" | /usr/share/elasticsearch/bin/elasticsearch-keystore add -xf boo
 #
 echo 'elasticsearch.username: "elastic"' >> /etc/kibana/kibana.yml
 echo 'elasticsearch.password: "Sex!L0g"' >> /etc/kibana/kibana.yml
+#
+echo '/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml &>/dev/null' >> /etc/cron.hourly/curator
+echo "#resize curator limit based on partition size" >> /etc/crontab
+echo "@reboot   root    sed -i -r -e \"s/disk_space\: .+/disk_space\: \$(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 93 / 1048576))/g\" /opt/elasticsearch-curator/action.yml" >> /etc/crontab
+#
+# TODO https://github.com/lizozom/custom-kibana-logo/blob/main/public/index.scss
+# TODO PullGuestInfos
