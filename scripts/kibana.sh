@@ -26,26 +26,31 @@ curl -XPOST "http://localhost:5601/api/kibana/settings/defaultIndex" -H "Content
 {
   "value" : "logstash-*"
 }'
+sleep 2s
 # Make discover default home
 curl -XPOST "http://localhost:5601/api/kibana/settings/defaultRoute" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
   "value" : "/app/discover"
 }'
+sleep 2s
 #
 curl -XPOST "http://localhost:5601/api/kibana/settings/accessibility:disableAnimations" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
   "value" : "true"
 }'
+sleep 2s
 #
 curl -XPOST "http://localhost:5601/api/kibana/settings/securitySolution:enableNewsFeed" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
   "value" : "false"
 }'
+sleep 2s
 #
 curl -XPOST "http://localhost:5601/api/kibana/settings/doc_table:hideTimeColumn" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
   "value" : "true"
 }'
+sleep 2s
 #
 curl -XPOST "http://localhost:5601/api/kibana/settings/defaultColumns" -H "Content-Type: application/json" -H "kbn-xsrf: true" -d'
 {
