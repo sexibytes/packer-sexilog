@@ -38,6 +38,14 @@ curl -X PUT "localhost:9200/_template/default" -H 'Content-Type: application/jso
   }
 } '
 #
+sleep 3
+#
+curl -X PUT "localhost:9200/_cluster/settings?flat_settings=true&pretty" -H 'Content-Type: application/json' -d'
+{
+    "transient" : {
+        "logger.org.elasticsearch.deprecation": "ERROR"
+    }
+}'
 echo 'vm.swappiness = 1' >> /etc/sysctl.conf
 #
 # es.enforce.bootstrap.checks
