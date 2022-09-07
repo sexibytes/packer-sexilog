@@ -27,7 +27,7 @@ echo 'elasticsearch.password: "Sex!L0g"' >> /etc/kibana/kibana.yml
 #
 echo '/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml &>/dev/null' >> /etc/cron.hourly/curator
 echo "#resize curator limit based on partition size" >> /etc/crontab
-echo "@reboot   root    sed -i -r -e \"s/disk_space\: .+/disk_space\: \$(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 93 / 1048576))/g\" /opt/elasticsearch-curator/action.yml" >> /etc/crontab
+echo "@reboot   root    sed -i -r -e \"s/disk_space\: .+/disk_space\: \$(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 80 / 1048576))/g\" /opt/elasticsearch-curator/action.yml" >> /etc/crontab
 #
 # TODO https://github.com/lizozom/custom-kibana-logo/blob/main/public/index.scss
 # TODO PullGuestInfos
