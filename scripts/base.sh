@@ -1,5 +1,6 @@
 # Update the box
 DEBIAN_FRONTEND=noninteractive apt-get -y update
+DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 # apt-get -y install linux-headers-$(uname -r) build-essential
 # apt-get -y install zlib1g-dev libssl-dev libreadline-gplv2-dev
 DEBIAN_FRONTEND=noninteractive apt-get -y install curl unzip resolvconf console-setup apt-transport-https vim wget htop parted traceroute ifupdown
