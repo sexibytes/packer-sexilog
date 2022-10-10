@@ -9,6 +9,9 @@ cp -R /tmp/sexilog-dev/etc/logstash/conf.d/output-elasticsearch.conf /etc/logsta
 cp -R /tmp/sexilog-dev/opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/
 cp -R /tmp/sexilog-dev/opt/elasticsearch-curator/action.yml /opt/elasticsearch-curator/
 #
+mkdir /opt/sexilog/
+cp -R /tmp/sexilog-dev/opt/sexilog/* /opt/sexilog/
+#
 cp -R /tmp/sexilog-dev/etc/logrotate.d/* /etc/logrotate.d/
 #
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/built-in-users.html
@@ -28,6 +31,10 @@ echo 'elasticsearch.password: "Sex!L0g"' >> /etc/kibana/kibana.yml
 echo '/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml &>/dev/null' >> /etc/cron.hourly/curator
 echo "#resize curator limit based on partition size" >> /etc/crontab
 echo "@reboot   root    sed -i -r -e \"s/disk_space\: .+/disk_space\: \$(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 80 / 1048576))/g\" /opt/elasticsearch-curator/action.yml" >> /etc/crontab
+#
+# Configure crontab for vmtools infos
+chmod a+x /opt/sexilog/PullGuestInfo.sh
+echo "\n@reboot         root    /bin/bash /opt/sexilog/PullGuestInfo.sh" >> /etc/crontab
 #
 # TODO https://github.com/lizozom/custom-kibana-logo/blob/main/public/index.scss
 # TODO PullGuestInfos
