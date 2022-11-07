@@ -18,8 +18,8 @@ echo "options vmw_pvscsi cmd_per_lun=254 ring_pages=32" > /etc/modprobe.d/pvscsi
 
 # fixing eth0 naming
 sed -i 's/GRUB_CMDLINE_LINUX=\"\"/GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0 ipv6.disable=1 netcfg\/do_not_use_netplan=true\"/g' /etc/default/grub
-grub-mkconfig -o /boot/grub/grub.cfg
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/GRUB_CMDLINE_LINUX_DEFAULT=\"\"/g' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable ESX timesync
 vmware-toolbox-cmd timesync enable
