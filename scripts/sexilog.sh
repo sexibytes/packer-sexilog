@@ -9,7 +9,7 @@ cp -R /tmp/sexilog-dev/etc/logstash/conf.d/output-elasticsearch.conf /etc/logsta
 cp -R /tmp/sexilog-dev/opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/
 cp -R /tmp/sexilog-dev/opt/elasticsearch-curator/action.yml /opt/elasticsearch-curator/
 #
-mkdir /opt/sexilog/
+mkdir -p /opt/sexilog/
 cp -R /tmp/sexilog-dev/opt/sexilog/* /opt/sexilog/
 #
 cp -R /tmp/sexilog-dev/etc/logrotate.d/* /etc/logrotate.d/
@@ -28,7 +28,11 @@ echo "Sex!L0g" | /usr/share/elasticsearch/bin/elasticsearch-keystore add -xf boo
 echo 'elasticsearch.username: "elastic"' >> /etc/kibana/kibana.yml
 echo 'elasticsearch.password: "Sex!L0g"' >> /etc/kibana/kibana.yml
 #
-echo '/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml &>/dev/null' >> /etc/cron.hourly/curator
+# echo '/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml &>/dev/null' >> /etc/cron.hourly/curator
+cat >/etc/cron.hourly/curator <<EOL
+#!/bin/sh
+/opt/elasticsearch-curator/curator --config /opt/elasticsearch-curator/curator.yml /opt/elasticsearch-curator/action.yml
+EOL
 echo "#resize curator limit based on partition size" >> /etc/crontab
 echo "@reboot   root    sed -i -r -e \"s/disk_space\: .+/disk_space\: \$(( $(df /mnt/efs | awk '/[0-9]%/{print $(NF-4)}') / 100 * 80 / 1048576))/g\" /opt/elasticsearch-curator/action.yml" >> /etc/crontab
 #
