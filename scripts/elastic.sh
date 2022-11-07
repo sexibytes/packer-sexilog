@@ -23,8 +23,8 @@ sed -i -e "s/http\.host\: 0\.0\.0\.0/http\.host\: 127\.0\.0\.1/g" /etc/elasticse
 chown -R elasticsearch:elasticsearch /mnt/efs/elasticsearch
 #
 # https://sleeplessbeastie.eu/2020/02/29/how-to-prevent-systemd-service-start-operation-from-timing-out/
-mkdir /etc/systemd/system/elasticsearch.service.d
-echo -e "[Service]\nTimeoutStartSec=180" | sudo tee /etc/systemd/system/elasticsearch.service.d/startup-timeout.conf
+mkdir -p /etc/systemd/system/elasticsearch.service.d
+echo -e "[Service]\nTimeoutStartSec=180" | tee /etc/systemd/system/elasticsearch.service.d/startup-timeout.conf
 #
 /bin/systemctl daemon-reload
 /bin/systemctl enable elasticsearch.service
