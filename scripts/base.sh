@@ -3,7 +3,7 @@ DEBIAN_FRONTEND=noninteractive apt-get -y update
 DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 # apt-get -y install linux-headers-$(uname -r) build-essential
 # apt-get -y install zlib1g-dev libssl-dev libreadline-gplv2-dev
-DEBIAN_FRONTEND=noninteractive apt-get -y install curl unzip resolvconf console-setup apt-transport-https vim wget htop parted traceroute ifupdown
+DEBIAN_FRONTEND=noninteractive apt-get -y install curl unzip resolvconf console-setup apt-transport-https vim wget htop parted traceroute ifupdown xml-twig-tools
 
 # Tweak sshd to prevent DNS resolution (speed up logins)
 # echo 'UseDNS no' >> /etc/ssh/sshd_config
@@ -49,6 +49,7 @@ if fdisk -l|grep -i "/dev/sdb" > /dev/null; then
   echo "mount sdb"
   parted /dev/sdb mklabel gpt
   parted -a opt /dev/sdb mkpart primary ext4 0% 100%
+  sleep 5
   mkfs.ext4 -L efs /dev/sdb1
   mkdir -p /mnt/efs
   echo "#" >> /etc/fstab
